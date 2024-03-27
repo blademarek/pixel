@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: docker/php
+    volumes:
+      - .:/var/www/html:rw
+    restart: unless-stopped
+    environment:
+      XDEBUG_CONFIG: client_host=192.168.0.178
+      PHP_IDE_CONFIG: serverName=localhost
+    networks:
+      - pixel-network
+
+  mysql:
+    image: mysql:8.0
+    restart: unless-stopped
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - .:/data
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - pixel-network
+
+  nginx:
+    image: nginx:stable
+    ports:
+      - 80:80
+    volumes:
+      - .:/var/www/html:rw
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    restart: unless-stopped
+    networks:
+      - pixel-network
+
+volumes:
+  mysql-data:
+    driver: local
+
+networks:
+  pixel-network:
+    driver: bridge
