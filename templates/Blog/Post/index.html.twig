@@ -1,0 +1,66 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Posts{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <br>
+        <div class="row">
+            <div class="col-md-6 text-right">
+                <h1>Posts</h1>
+            </div>
+            <div class="col-md-6 text-right">
+                <a href="{{ path('post_add') }}" class="btn btn-success btn-lg"><i class="fa fa-plus"></i> Add Post</a>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <ul class="list-group">
+        {% for post in posts %}
+            <li class="list-group-item">
+                <div class="blog-post">
+                    <h2 class="blog-post-title">{{ post.title }}</h2>
+                    <p class="blog-post-description">{{ post.description }}</p>
+                    <p class="blog-post-info">Author: {{ post.author }}</p>
+                    <p class="blog-post-info">Date: {{ post.date|date('Y-m-d H:i:s') }}</p>
+                    <p class="blog-post-info">Comments: {{ post.comments|length }}</p>
+                    <a href="{{ path('post_show', {'id': post.id}) }}" class="btn btn-primary">View Details</a>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <nav class="navbar navbar-expand navbar-light bg-light fixed-bottom">
+        <div class="navbar-nav mx-auto">
+            {% if posts.count > limit %}
+                {% set totalPages = (posts.count / limit)|round(0, 'ceil') %}
+                {% set startPage = max(1, page - 2) %}
+                {% set endPage = min(totalPages, page + 2) %}
+
+                {% if page > 1 %}
+                    <a class="nav-item nav-link" href="{{ path('home', {'page': 1}) }}" aria-label="First">
+                        <span aria-hidden="true">&laquo;&laquo;</span>
+                    </a>
+                    <a class="nav-item nav-link" href="{{ path('home', {'page': page - 1}) }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                {% endif %}
+
+                {% for p in startPage..endPage %}
+                    <a class="nav-item nav-link {% if p == page %}active{% endif %}" href="{{ path('home', {'page': p}) }}">{{ p }}</a>
+                {% endfor %}
+
+                {% if page < totalPages %}
+                    <a class="nav-item nav-link" href="{{ path('home', {'page': page + 1}) }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                    <a class="nav-item nav-link" href="{{ path('home', {'page': totalPages}) }}" aria-label="Last">
+                        <span aria-hidden="true">&raquo;&raquo;</span>
+                    </a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </nav>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html.twig" %}
+
+{% block title %}New Post{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <br>
+        <div class="row">
+            <div class="col-md-6 text-right">
+                <h1>New Post</h1>
+            </div>
+            <div class="col-md-6 text-right">
+                <a href="{{ path('home') }}" class="btn btn-secondary btn-lg">Back</a>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row justify-content-md-center">
+            <div class="col-md-6">
+                {{ form_start(form) }}
+                <div class="form-group">
+                    {{ form_row(form.title, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_row(form.description, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_row(form.author, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock body %}
