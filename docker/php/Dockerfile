@@ -1,5 +1,8 @@
 FROM php:8.1.14-fpm
 
+ARG user
+ARG uid
+
 # INIT
 
 ENV BUILD_DEPS libc-client-dev libicu-dev git libzip-dev zlib1g-dev libkrb5-dev libpng-dev g++ build-essential libssl-dev libsasl2-dev libmagickwand-dev libonig-dev
@@ -12,6 +15,8 @@ RUN apt-get update && apt-get install -y ${BUILD_DEPS} ${RUN_DEPS} --no-install-
     && docker-php-ext-configure intl \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-install -j$(nproc) mysqli pdo_mysql bcmath iconv zip intl imap gd soap sockets
+
+RUN useradd -G www-data,root -u $uid -d /home/$user $user
 
 # XDEBUG
 
@@ -42,11 +47,3 @@ RUN apt-get update && apt-get install -y nano
 RUN echo "alias ll='ls -alG'" >> /etc/bash.bashrc
 RUN echo "alias ls='ls --color=auto'" >> /etc/bash.bashrc
 RUN echo "alias ..='cd ..'" >> /etc/bash.bashrc
-
-# VOLUME
-
-VOLUME /var/www/html
-
-RUN chmod -R 777 /var/www/html/
-
-WORKDIR /var/www/html
