@@ -24,7 +24,7 @@
                         <div class="list-group-item list-group-item-action">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">{{ comment.author }}</h5>
-                                <small>{{ comment.date|date('d.n.Y H:i:s') }}</small>
+                                <small>Comment added {{ comment.date|date('d.n.Y H:i:s') }}</small>
                             </div>
                             <p class="mb-1">{{ comment.content }}</p>
                         </div>

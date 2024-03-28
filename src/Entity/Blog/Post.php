@@ -94,9 +94,6 @@ class Post
         return $this;
     }
 
-    /**
-     * @return Collection<int, Comment>
-     */
     public function getComments(): Collection
     {
         return $this->comments;
@@ -107,17 +104,6 @@ class Post
         if (!$this->comments->contains($comment)) {
             $this->comments->add($comment);
             $comment->setPost($this);
-        }
-
-        return $this;
-    }
-
-    public function removeComment(Comment $comment): static
-    {
-        if ($this->comments->removeElement($comment)) {
-            if ($comment->getPost() === $this) {
-                $comment->setPost(null);
-            }
         }
 
         return $this;
