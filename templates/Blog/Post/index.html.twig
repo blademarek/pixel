@@ -24,7 +24,7 @@
                     <h2 class="blog-post-title">{{ post.title }}</h2>
                     <p class="blog-post-description">{{ post.description }}</p>
                     <p class="blog-post-info">Author: {{ post.author }}</p>
-                    <p class="blog-post-info">Date: {{ post.date|date('Y-m-d H:i:s') }}</p>
+                    <p class="blog-post-info">Created: {{ post.date|date('d.n.Y H:i:s') }}</p>
                     <p class="blog-post-info">Comments: {{ post.comments|length }}</p>
                     <a href="{{ path('post_show', {'id': post.id}) }}" class="btn btn-primary">View Details</a>
                 </div>
